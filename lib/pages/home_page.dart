@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/todo_tile.dart';
+import 'package:myapp/utils/dialog_box.dart'
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
+  
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -12,11 +13,25 @@ class _HomePageState extends State<HomePage> {
   void check() {
     print('hwllo');
   }
-
+  final _controller = TextEditingController();
   void checkBoxClicked(bool? value, int index) {
     setState(() {
       todolist[index][1] = !todolist[index][1];
     });
+  }
+
+  void saveNewTask(){
+    setState((){
+      todoList.add([_controller.text,false]);
+      _controller.clear();
+    })
+    Navigator.of(context).pop();
+  }
+
+  void createNewTask(){
+    showDialog(context: context, builder: (context){
+      return DialogBox(controller: _controller, onSave: saveNewTask, onCancel: () => Navigator.of(context).pop());
+    },);
   }
 
   List todolist = [
